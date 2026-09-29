@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Jornal Miau: crônicas e figuras de linguagem</title>
+<style>
+:root{
+  --ink:#1F2A5A; --soft:#5A6391; --paper:#FFFFFF; --bg:#FFF7E6;
+  --navy:#23357A; --yellow:#FFC93C; --pink:#FF5C9E; --green:#22B893; --blue:#3C8BFF; --purple:#7B4DFF; --red:#F2545B; --orange:#FF8A3D;
+  --line:#E7E2F3;
+  color-scheme:light; box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --bg:#FFF7E6; } }
+:root[data-theme="dark"]{ --bg:#FFF7E6; }
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 110px)}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:"Trebuchet MS","Nunito","Segoe UI",system-ui,sans-serif; font-size:19px; line-height:1.5;
+  background-image:radial-gradient(circle at 8% 12%, rgba(255,201,60,.35) 0 60px, transparent 61px), radial-gradient(circle at 95% 30%, rgba(255,92,158,.18) 0 90px, transparent 91px), radial-gradient(circle at 10% 90%, rgba(60,139,255,.15) 0 110px, transparent 111px); background-attachment:fixed}
+h1,h2,h3,.btn,.pill,.mbadge{font-family:"Arial Rounded MT Bold","Trebuchet MS",system-ui,sans-serif}
+h1{font-size:clamp(2rem,7vw,3rem); line-height:1.05; margin:0 0 8px; color:var(--navy)}
+h2{font-size:1.75rem; line-height:1.15; margin:0 0 6px; color:var(--navy)}
+h3{font-size:1.3rem; margin:0 0 8px}
+p{margin:0 0 10px}
+.wrap{max-width:820px; margin:0 auto; padding:0 16px 70px}
+
+/* topo e progresso */
+.top{position:sticky; top:env(safe-area-inset-top,0px); z-index:5; background:rgba(255,255,255,.94); border-bottom:3px solid var(--line)}
+.topin{max-width:820px; margin:0 auto; padding:8px 16px 10px}
+.toprow{display:flex; align-items:center; gap:10px; justify-content:space-between; margin-bottom:6px}
+.brand{font-family:"Arial Rounded MT Bold","Trebuchet MS",sans-serif; font-weight:700; color:var(--navy); font-size:1.05rem}
+.badge{background:var(--yellow); border-radius:999px; padding:2px 12px; font-weight:700; font-size:1rem}
+.steps{display:flex; gap:4px}
+.steps span{flex:1; height:12px; border-radius:99px; background:var(--line); transition:background .3s}
+.steps span.done{background:var(--green)} .steps span.now{background:var(--yellow)}
+.steplabel{font-size:.9rem; color:var(--soft); font-weight:700; margin-top:4px}
+
+/* telas */
+.screen{display:none; padding-top:22px}
+.screen.on{display:block; animation:slide .35s}
+@keyframes slide{from{opacity:0; transform:translateY(10px)}to{opacity:1; transform:none}}
+.mbadge{display:inline-block; background:var(--navy); color:#fff; border-radius:999px; padding:3px 14px; font-size:1rem; margin-bottom:8px}
+.lead{color:var(--soft); font-size:1.05rem}
+.card{background:#fff; border:4px solid var(--line); border-radius:26px; padding:20px; margin:16px 0; box-shadow:0 7px 0 var(--line)}
+.card.yellow{border-color:var(--yellow); box-shadow:0 7px 0 #F0A800; background:#FFFBEC}
+.card.blue{border-color:var(--blue); box-shadow:0 7px 0 #2A6BD1}
+.card.pink{border-color:var(--pink); box-shadow:0 7px 0 #D33B7B}
+.card.green{border-color:var(--green); box-shadow:0 7px 0 #17907A}
+.two{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+@media (max-width:600px){ .two{grid-template-columns:1fr} }
+.side{border-radius:22px; padding:16px; border:4px solid}
+.side.lit{background:#FFF0F6; border-color:var(--pink)}
+.side.info{background:#EEF5FF; border-color:var(--blue)}
+.side h3{margin-bottom:6px}
+.side.lit h3{color:#C92F72} .side.info h3{color:#2A6BD1}
+.side ul{margin:6px 0 0; padding-left:22px}
+.quote{font-size:1.2rem; font-weight:700; background:#fff; border-radius:16px; padding:12px 14px; margin-top:10px}
+.magic{text-align:center; font-size:1.35rem; font-weight:700; background:var(--navy); color:#fff; border-radius:22px; padding:16px}
+.magic b{color:var(--yellow)}
+
+/* botões */
+.btn{--c:var(--blue); display:inline-flex; align-items:center; justify-content:center; gap:8px; background:var(--c); color:#fff; border:none; border-radius:18px; padding:14px 22px; min-height:58px; font-size:1.15rem; font-weight:700; cursor:pointer; box-shadow:0 6px 0 rgba(0,0,0,.22); transition:transform .08s, box-shadow .08s}
+.btn:active{transform:translateY(4px); box-shadow:0 2px 0 rgba(0,0,0,.22)}
+.btn:focus-visible{outline:4px solid var(--purple); outline-offset:3px}
+.btn[disabled]{cursor:default}
+.btn.ghost{background:#fff; color:var(--ink); border:3px solid var(--line)}
+.btn.lit{--c:var(--pink)} .btn.info{--c:var(--blue)}
+.btn.right{--c:var(--green)!important} .btn.wrong{--c:var(--red)!important}
+.btn.dim{opacity:.4}
+.choices{display:grid; gap:12px}
+.choices .btn{justify-content:flex-start; text-align:left; width:100%}
+.duo{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+.duo .btn{min-height:74px; font-size:1.2rem}
+.row{display:flex; flex-wrap:wrap; gap:12px}
+.center{justify-content:center}
+.navrow{display:flex; justify-content:space-between; gap:12px; margin-top:22px}
+
+/* feedback */
+.fb{border-radius:18px; padding:14px 16px; margin-top:14px; font-weight:700; display:none}
+.fb.show{display:block; animation:pop .3s}
+.fb.good{background:#E3F8F1; border:3px solid var(--green)}
+.fb.bad{background:#FFEDEE; border:3px solid var(--red)}
+.fb .clue{display:inline-block; background:var(--yellow); border-radius:8px; padding:0 6px; margin:2px 0}
+@keyframes pop{0%{transform:scale(.94); opacity:0}100%{transform:none; opacity:1}}
+.shake{animation:shake .35s}
+@keyframes shake{25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+
+/* textos de caso */
+.case{background:#FFFDF6; border:3px dashed #D9C79A; border-radius:18px; padding:16px 18px; font-size:1.12rem; margin:10px 0 14px; position:relative}
+.case .kind{position:absolute; top:-14px; left:14px; background:var(--navy); color:#fff; border-radius:999px; padding:0 10px; font-size:.85rem; font-weight:700; display:none}
+.case.revealed .kind{display:inline-block}
+.case mark{background:transparent; border-radius:6px; padding:0 2px; transition:background .3s}
+.case.revealed mark{background:var(--yellow)}
+.pair{display:grid; gap:12px}
+.pairbtn{text-align:left; background:#fff; border:4px solid var(--line); border-radius:20px; padding:14px 16px; font:inherit; font-size:1.12rem; color:var(--ink); cursor:pointer; box-shadow:0 5px 0 var(--line); display:flex; gap:12px; align-items:flex-start}
+.pairbtn .lt{flex:0 0 auto; width:38px; height:38px; border-radius:50%; background:var(--navy); color:#fff; display:grid; place-items:center; font-weight:700}
+.pairbtn:focus-visible{outline:4px solid var(--purple); outline-offset:3px}
+.pairbtn.right{border-color:var(--green); box-shadow:0 5px 0 var(--green); background:#E3F8F1}
+.pairbtn.wrong{border-color:var(--red); box-shadow:0 5px 0 var(--red); background:#FFEDEE}
+.counter{font-weight:700; color:var(--soft); text-align:center; margin-bottom:6px}
+.sub{margin-top:14px; padding-top:14px; border-top:3px dashed var(--line)}
+.sub .q2{font-weight:700; margin-bottom:10px}
+
+/* animação missão 1 */
+.book{position:relative; height:170px; display:grid; place-items:end center; overflow:hidden}
+.book .b{font-size:4.2rem; line-height:1; position:relative; z-index:2}
+.fly{position:absolute; bottom:50px; font-weight:700; font-size:1.05rem; background:#fff; border-radius:999px; padding:2px 10px; border:2px solid var(--line); opacity:0; animation:fly 4.5s infinite}
+@keyframes fly{0%{opacity:0; transform:translate(0,0) scale(.6)}15%{opacity:1}80%{opacity:1}100%{opacity:0; transform:translate(var(--x),-120px) scale(1)}}
+@media (prefers-reduced-motion:reduce){ *{animation:none!important; transition:none!important} .fly{opacity:1; position:static; display:inline-block; margin:3px} .book{display:block; height:auto; text-align:center} }
+
+/* professor */
+textarea{width:100%; min-height:120px; font:inherit; font-size:1.1rem; color:var(--ink); border:3px solid var(--line); border-radius:16px; padding:12px; background:#fff}
+textarea:focus{outline:4px solid var(--purple); outline-offset:2px}
+.model{display:none; background:#FFFBEC; border:3px solid var(--yellow); border-radius:16px; padding:12px 14px; margin-top:12px}
+.model.show{display:block; animation:pop .3s}
+.checks label{display:flex; gap:10px; align-items:center; font-weight:700; margin:8px 0; cursor:pointer}
+.checks input{width:24px; height:24px; accent-color:var(--green)}
+
+/* final */
+.result{text-align:center}
+.result .big{font-size:4.5rem; line-height:1.1}
+.result .rank{display:inline-block; background:var(--navy); color:var(--yellow); border-radius:999px; padding:6px 20px; font-size:1.5rem; font-weight:700; margin:8px 0}
+.mind{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+@media (max-width:600px){ .mind{grid-template-columns:1fr} }
+.branch{border-radius:22px; padding:16px; text-align:center; color:#fff}
+.branch.l{background:var(--pink)} .branch.n{background:var(--blue)}
+.node{background:rgba(255,255,255,.95); color:var(--ink); border-radius:14px; padding:8px 10px; font-weight:700; margin:0 auto}
+.arrow{font-size:1.5rem; line-height:1.4}
+.leaves{display:flex; flex-wrap:wrap; gap:6px; justify-content:center; margin-top:4px}
+.leaves span{background:#fff; color:var(--ink); border-radius:999px; padding:4px 12px; font-weight:700; font-size:.98rem}
+.rule{background:var(--navy); color:#fff; border-radius:24px; padding:20px; text-align:center; font-size:1.3rem; font-weight:700; margin-top:18px}
+.rule span{color:var(--yellow)}
+.detective{display:flex; align-items:center; gap:14px}
+.detective .face{font-size:3.6rem; line-height:1}
+.speech{background:#fff; border:3px solid var(--navy); border-radius:20px; padding:12px 14px; font-weight:700; flex:1}
+.conf{position:fixed; top:-14px; width:12px; height:16px; z-index:50; border-radius:4px; pointer-events:none; animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(105vh) rotate(600deg)}}
+
+.paper{background:#FFFEF8; border:3px solid #1F2A5A; border-radius:8px; padding:18px 20px; box-shadow:6px 6px 0 #1F2A5A; font-family:Georgia,"Times New Roman",serif; font-size:1.13rem; line-height:1.7; margin:14px 0}
+.paper .mast{font-family:Georgia,serif; text-align:center; border-bottom:3px double #1F2A5A; padding-bottom:6px; margin-bottom:10px}
+.paper .mast b{display:block; font-size:1.5rem; letter-spacing:1px}
+.paper .mast small{font-family:"Trebuchet MS",sans-serif; color:var(--soft)}
+.paper h3{font-family:Georgia,serif; font-size:1.35rem; margin:4px 0 8px}
+.paper p{margin:0 0 12px}
+.paper .hl{border-radius:5px; padding:0 2px; transition:background .3s}
+.paper.show-cot .hl.cot{background:#FFE08A}
+.paper.show-eu .hl.eu{background:#BFE3FF}
+.paper.show-hum .hl.hum{background:#FFC6DD}
+.paper.show-ref .hl.ref{background:#8FE6C8}
+.paper.show-per .hl.per{background:#FFC6DD}
+.paper.show-met .hl.met{background:#D9CCFF}
+.paper.show-ali .hl.ali{background:#FFD9B8}
+.paper.show-tro .hl.tro{background:#8FE6C8}
+.tog{display:flex; flex-wrap:wrap; gap:10px}
+.tog .btn{font-size:1rem; min-height:50px; padding:10px 14px}
+.tog .btn.on{outline:4px solid var(--navy); outline-offset:2px}
+.info{background:#fff; border:3px solid var(--line); border-radius:16px; padding:12px 14px; margin-top:12px; font-weight:600}
+.feat{display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:12px}
+.feat div{background:#fff; border:3px solid var(--line); border-radius:18px; padding:12px}
+.feat b{display:block; font-size:1.1rem}
+.figs{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px}
+.fig{background:#fff; border:4px solid var(--c); border-radius:22px; padding:16px; box-shadow:0 6px 0 var(--c)}
+.fig .ic{font-size:2.4rem; line-height:1}
+.fig h3{color:var(--c); margin:6px 0}
+.fig .ex{font-style:italic; background:#F7F4FF; border-radius:12px; padding:8px 10px; margin:8px 0}
+.fig .tip{font-weight:700; font-size:.98rem}
+.quad{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+.quad .btn{min-height:64px; font-size:1.05rem}
+.sentence{font-family:Georgia,serif; font-size:1.25rem; font-weight:700; background:#FFFEF8; border:3px dashed #D9C79A; border-radius:16px; padding:14px 16px; margin:8px 0 14px; text-align:center}
+.secret{font-family:"Arial Rounded MT Bold","Trebuchet MS",sans-serif; font-size:1.35rem; line-height:1.4; font-weight:700; text-align:center}
+
+/* ===== tema gatinhos ===== */
+:root{ --ink:#4B2E5C; --soft:#8A6A9A; --bg:#FFF4F8; --navy:#6B3E8C; --yellow:#FFD66B; --pink:#FF7BAC; --green:#3CC9A0; --blue:#6CB4FF; --purple:#A57BFF; --red:#FF6B7A; --orange:#FFA64D; --line:#F4DCEA; }
+body{ background-color:var(--bg); background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='%23FFB3CF' fill-opacity='.35'%3E%3Cellipse cx='30' cy='38' rx='10' ry='8'/%3E%3Ccircle cx='18' cy='26' r='4'/%3E%3Ccircle cx='26' cy='20' r='4'/%3E%3Ccircle cx='35' cy='20' r='4'/%3E%3Ccircle cx='43' cy='26' r='4'/%3E%3Cellipse cx='88' cy='94' rx='10' ry='8'/%3E%3Ccircle cx='76' cy='82' r='4'/%3E%3Ccircle cx='84' cy='76' r='4'/%3E%3Ccircle cx='93' cy='76' r='4'/%3E%3Ccircle cx='101' cy='82' r='4'/%3E%3C/g%3E%3C/svg%3E"); background-size:120px 120px; background-attachment:fixed; font-family:"Trebuchet MS","Comic Sans MS","Nunito",system-ui,sans-serif }
+h1,h2{ color:var(--navy) }
+.top{ background:rgba(255,244,248,.95); border-bottom:3px solid #FFD1E3 }
+.steps{ gap:2px }
+.steps span{ height:auto; background:none; font-size:1.05rem; text-align:center; filter:grayscale(1); opacity:.35 }
+.steps span::before{ content:"🐾" }
+.steps span.done{ background:none; filter:none; opacity:1 }
+.steps span.now{ background:none; filter:none; opacity:1; animation:hop 1s infinite }
+@keyframes hop{ 50%{ transform:translateY(-4px) } }
+.card{ position:relative; border-color:#FFD1E3; box-shadow:0 7px 0 #FFD1E3; border-radius:30px; margin-top:28px }
+.card::before,.card::after{ content:""; position:absolute; top:-20px; width:0; height:0; border-left:16px solid transparent; border-right:16px solid transparent; border-bottom:22px solid #FFD1E3 }
+.card::before{ left:28px } .card::after{ right:28px }
+.card.yellow::before,.card.yellow::after{ border-bottom-color:var(--yellow) }
+.card.blue::before,.card.blue::after{ border-bottom-color:var(--blue) }
+.card.pink::before,.card.pink::after{ border-bottom-color:var(--pink) }
+.card.yellow{ background:#FFFBEA; box-shadow:0 7px 0 #F2B93B }
+.card.blue{ box-shadow:0 7px 0 #4A93E0 }
+.card.pink{ box-shadow:0 7px 0 #E0598D }
+.mbadge{ background:var(--pink) }
+.mbadge::before{ content:"🐱 " }
+.btn{ border-radius:24px }
+.magic{ background:linear-gradient(135deg,var(--purple),var(--pink)) }
+.magic b{ color:#FFF3B0 }
+.paper{ border-color:var(--navy); box-shadow:6px 6px 0 var(--pink); border-radius:18px }
+.paper .mast{ border-bottom-color:var(--navy) }
+.paper .mast b::before{ content:"🐾 " } .paper .mast b::after{ content:" 🐾" }
+.rule{ background:linear-gradient(135deg,var(--navy),var(--purple)) }
+.branch.l{ background:var(--pink) } .branch.n{ background:var(--purple) }
+.result .rank{ background:var(--pink); color:#fff }
+.fb.good{ background:#E6FAF3 } .fb.bad{ background:#FFF0F4; border-color:var(--pink) }
+.catbox{ display:flex; align-items:center; gap:12px }
+.catbox svg{ width:110px; height:110px; flex:0 0 auto }
+.catbox svg.catmini{ width:70px; height:70px }
+.catbox .speech{ border-color:var(--navy); border-radius:24px; position:relative }
+.catbox .speech::before{ content:""; position:absolute; left:-12px; top:26px; border:10px solid transparent; border-right-color:var(--navy); border-left:0 }
+.paw{ position:fixed; top:-30px; z-index:50; pointer-events:none; font-size:24px; animation:fall linear forwards }
+.purr{ animation:purr .6s }
+@keyframes purr{ 25%{ transform:rotate(-6deg) } 75%{ transform:rotate(6deg) } }
+@media (prefers-reduced-motion:reduce){ .steps span.now,.purr{ animation:none } }
+</style>
+</head>
+<body>
+<header class="top"><div class="topin">
+  <div class="toprow"><span class="brand">🐱 Jornal Miau</span><span class="badge">⭐ <span id="score">0</span></span></div>
+  <div class="steps" id="steps"></div>
+  <div class="steplabel" id="steplabel"></div>
+</div></header>
+<main class="wrap">
+
+<section class="screen" data-name="Abertura">
+  <div class="catbox"><svg viewBox="0 0 120 120" aria-hidden="true" class="cat">
+<path d="M22 50 L20 14 L48 34 Z" fill="#FFB36B" stroke="#4B2E5C" stroke-width="4" stroke-linejoin="round"/>
+<path d="M98 50 L100 14 L72 34 Z" fill="#FFB36B" stroke="#4B2E5C" stroke-width="4" stroke-linejoin="round"/>
+<path d="M27 42 L27 24 L41 34 Z" fill="#FF9EC3"/><path d="M93 42 L93 24 L79 34 Z" fill="#FF9EC3"/>
+<ellipse cx="60" cy="70" rx="44" ry="40" fill="#FFB36B" stroke="#4B2E5C" stroke-width="4"/>
+<path d="M60 34 L60 46 M50 36 L52 46 M70 36 L68 46" stroke="#E08A3C" stroke-width="4" stroke-linecap="round"/>
+<ellipse cx="44" cy="66" rx="7" ry="9" fill="#4B2E5C"/><ellipse cx="76" cy="66" rx="7" ry="9" fill="#4B2E5C"/>
+<circle cx="46" cy="63" r="2.6" fill="#fff"/><circle cx="78" cy="63" r="2.6" fill="#fff"/>
+<path d="M56 78 L64 78 L60 83 Z" fill="#FF7BAC"/>
+<path d="M60 83 Q54 90 48 86 M60 83 Q66 90 72 86" stroke="#4B2E5C" stroke-width="3" fill="none" stroke-linecap="round"/>
+<circle cx="34" cy="82" r="6" fill="#FF7BAC" opacity=".5"/><circle cx="86" cy="82" r="6" fill="#FF7BAC" opacity=".5"/>
+<path d="M30 76 L8 72 M30 82 L8 86 M90 76 L112 72 M90 82 L112 86" stroke="#4B2E5C" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M40 30 L60 8 L80 30 Z" fill="#fff" stroke="#4B2E5C" stroke-width="3" stroke-linejoin="round"/>
+<path d="M48 23 L72 23 M52 17 L68 17" stroke="#A57BFF" stroke-width="2"/>
+</svg><div class="speech">Miau! Eu sou a <b>Mimi</b>, a gata repórter do <b>Jornal Miau</b>. 🐾<br>Bem-vinda à redação, Sofia! Hoje você é a nossa nova cronista.</div></div>
+  <h1 style="margin-top:18px">Crônicas e figuras de linguagem</h1>
+  <div class="card yellow"><h3>📝 Sua missão</h3>
+    <p>Descobrir o que é uma <b>crônica</b>, aprender os 4 "truques de escritor" (as <b>figuras de linguagem</b>) e, no final, escrever sua própria crônica!</p></div>
+  <div class="card"><h3>🗺️ Missões</h3>
+    <p>1. O que é crônica? · 2. Lendo uma crônica · 3. Os 4 truques · 4. Caça às figuras · 5. Crônica ou notícia? · 6. Eu sou a cronista · 🏆 Desafio final</p></div>
+  <div class="row center"><button class="btn" style="--c:var(--pink)" data-next>Entrar na redação 🐾</button></div>
+</section>
+
+<section class="screen" data-name="Missão 1: O que é crônica?">
+  <span class="mbadge">Missão 1</span><h2>O que é uma crônica?</h2>
+  <div class="card">
+    <p style="font-size:1.3rem;font-weight:700;text-align:center">Crônica é um texto <span style="color:var(--pink)">curto</span> que fala de uma situação do <span style="color:var(--pink)">dia a dia</span>, contada com o <span style="color:var(--pink)">olhar pessoal</span> do autor.</p>
+    <p class="lead" style="text-align:center">O cronista olha para coisas comuns (uma fila, um elevador, a chuva) e encontra nelas humor, emoção ou uma reflexão.</p>
+  </div>
+  <div class="feat">
+    <div>🕐 <b>Cotidiano</b>Fala de coisas do dia a dia.</div>
+    <div>✂️ <b>Curta</b>Dá para ler rapidinho.</div>
+    <div>👀 <b>Olhar do autor</b>Mostra o que ele pensa e sente.</div>
+    <div>💬 <b>Conversa</b>Linguagem simples, como um bate-papo com o leitor. Muitas vezes em 1ª pessoa ("eu").</div>
+    <div>😄💭 <b>Humor ou reflexão</b>Faz rir, emocionar ou pensar.</div>
+    <div>📰 <b>Nasceu no jornal</b>Publicada em jornais, revistas e na internet.</div>
+  </div>
+  <div class="card"><h3>☔ Mesmo fato, dois textos</h3>
+    <div class="two">
+      <div class="side info"><h3>📋 Notícia</h3><div class="quote">"Forte chuva atinge São Paulo nesta terça e alaga 12 ruas da zona sul."</div><p style="margin-top:8px">Só <b>informa</b> o fato: quando, onde, quanto.</p></div>
+      <div class="side lit"><h3>🎨 Crônica</h3><div class="quote">"Hoje o céu acordou de mau humor e resolveu chorar em cima da cidade inteira. Eu, sem guarda-chuva, virei parte da enchente."</div><p style="margin-top:8px">Conta o mesmo fato com <b>humor e imagens</b>, do jeito do autor.</p></div>
+    </div>
+  </div>
+  <div class="magic">🔮 Truque para reconhecer:<br><b>É do dia a dia + tem o jeitinho pessoal do autor = CRÔNICA</b></div>
+  <div class="card blue"><div id="m1"></div></div>
+  <div class="navrow"><button class="btn ghost" data-prev>⬅ Voltar</button><button class="btn" style="--c:var(--pink)" data-next disabled>Próxima missão ➜</button></div>
+</section>
+
+<section class="screen" data-name="Missão 2: Lendo uma crônica">
+  <span class="mbadge">Missão 2</span><h2>Lendo uma crônica</h2>
+  <p class="lead">Leia em voz alta. Depois toque nos botões para achar as marcas da crônica.</p>
+  <div class="paper" id="cron1">
+    <div class="mast"><b>JORNAL MIAU</b><small>Coluna de crônicas · terça-feira</small></div>
+    <h3>O elevador rabugento</h3>
+    <p>Todo prédio tem um morador que ninguém escolheu: <span class="hl cot">o elevador</span>. O do meu prédio é velho, rabugento e tem opinião sobre tudo.</p>
+    <p><span class="hl cot">Segunda-feira de manhã</span>, <span class="hl eu">eu estava atrasada e apertei o botão</span>. Ele pensou. Pensou mais um pouco. Desceu devagarzinho, <span class="hl hum">rangendo como quem reclama de dor nas costas</span>. Quando a porta abriu, lá dentro estavam <span class="hl cot">a dona Cida, o gato dela e três sacolas de feira</span>.</p>
+    <p>— Cabe mais um! — disse ela, sorrindo.</p>
+    <p><span class="hl hum">Não cabia. Mas coube.</span> Fomos descendo apertados, <span class="hl hum">o gato me olhando como quem pergunta: "e você, quem é?"</span>.</p>
+    <p>No térreo, <span class="hl eu">fiquei pensando</span> que <span class="hl ref">o elevador é um pouco como a vida na cidade: lento, cheio e apertado. E, mesmo assim, sempre cabe mais um sorriso.</span></p>
+  </div>
+  <div class="tog" id="tog1">
+    <button class="btn" style="--c:#E0A800" data-k="cot">🕐 Cotidiano</button>
+    <button class="btn" style="--c:var(--blue)" data-k="eu">💬 Narrador "eu"</button>
+    <button class="btn" style="--c:var(--pink)" data-k="hum">😄 Humor</button>
+    <button class="btn" style="--c:var(--green)" data-k="ref">💭 Reflexão</button>
+  </div>
+  <div class="info" id="info1">Toque em um botão para acender as partes do texto.</div>
+  <div class="card blue"><h3>🔎 Perguntas sobre a crônica</h3><div id="m2"></div></div>
+  <div class="navrow"><button class="btn ghost" data-prev>⬅ Voltar</button><button class="btn" style="--c:var(--pink)" data-next disabled>Próxima missão ➜</button></div>
+</section>
+
+<section class="screen" data-name="Missão 3: Os 4 truques">
+  <span class="mbadge">Missão 3</span><h2>Os 4 truques do escritor</h2>
+  <p class="lead">As figuras de linguagem deixam o texto mais bonito, engraçado ou marcante. Os cronistas adoram usar!</p>
+  <div class="figs">
+    <div class="fig" style="--c:var(--pink)"><div class="ic">🧸</div><h3>Personificação</h3>
+      <p>Uma coisa, animal ou elemento da natureza <b>ganha jeito de gente</b>: pensa, fala, sente, reclama.</p>
+      <div class="ex">"O elevador é rabugento e tem opinião sobre tudo."</div>
+      <p class="tip">🔎 Algo que NÃO é gente está agindo como gente?</p></div>
+    <div class="fig" style="--c:var(--purple)"><div class="ic">🎭</div><h3>Metáfora</h3>
+      <p>Diz que uma coisa <b>É</b> outra, sem usar "como". É uma comparação escondida.</p>
+      <div class="ex">"O pátio virou um oceano."</div>
+      <p class="tip">🔎 Tem "como", "parece", "igual a"? Então é <u>comparação</u>, não metáfora!</p></div>
+    <div class="fig" style="--c:var(--orange)"><div class="ic">🔁</div><h3>Aliteração</h3>
+      <p>O <b>mesmo som de consoante</b> se repete várias vezes, criando música.</p>
+      <div class="ex">"Pisem, pulem, passem pelo pano!"</div>
+      <p class="tip">🔎 Leia em voz alta: algum som fica batendo? P, P, P…</p></div>
+    <div class="fig" style="--c:var(--green)"><div class="ic">😜</div><h3>Trocadilho</h3>
+      <p><b>Brincadeira</b> com uma palavra que tem dois sentidos, ou com palavras de som parecido.</p>
+      <div class="ex">"O que o tomate foi fazer no banco? Tirar extrato!"</div>
+      <p class="tip">🔎 A graça vem de uma palavra que vale duas coisas?</p></div>
+  </div>
+  <div class="card yellow"><h3>🔑 O segredo das 4 figuras</h3>
+    <p class="secret">🧸 vira <span style="color:var(--pink)">GENTE</span> · 🎭 vira <span style="color:var(--purple)">OUTRA COISA</span><br>🔁 repete o <span style="color:var(--orange)">SOM</span> · 😜 faz <span style="color:var(--green)">PIADA</span></p></div>
+  <div class="card blue"><h3>⚡ Treino rápido</h3><div id="m3"></div></div>
+  <div class="navrow"><button class="btn ghost" data-prev>⬅ Voltar</button><button class="btn" style="--c:var(--pink)" data-next disabled>Próxima missão ➜</button></div>
+</section>
+
+<section class="screen" data-name="Missão 4: Caça às figuras">
+  <span class="mbadge">Missão 4</span><h2>Caça às figuras na crônica</h2>
+  <p class="lead">Esta crônica esconde as 4 figuras. Leia em voz alta. Depois descubra qual figura está em cada frase.</p>
+  <div class="paper" id="cron2">
+    <div class="mast"><b>JORNAL MIAU</b><small>Coluna de crônicas · quarta-feira</small></div>
+    <h3>Dia de chuva na escola</h3>
+    <p>Na terça-feira, <span class="hl per">o céu acordou de mau humor e resolveu chorar o dia inteiro</span>. <span class="hl met">O pátio virou um oceano</span>, e <span class="hl met">os guarda-chuvas coloridos eram barquinhos</span> navegando até a sala.</p>
+    <p>Na porta, a inspetora avisava: — <span class="hl ali">Pisem, pulem, passem pelo pano!</span></p>
+    <p>O Joca entrou encharcado e anunciou:</p>
+    <p>— <span class="hl tro">Hoje está chovendo canivete!</span></p>
+    <p>E a Bia, sem tirar os olhos do caderno:</p>
+    <p>— <span class="hl tro">Então me empresta um, que eu esqueci meu apontador.</span></p>
+    <p>No fim da tarde, <span class="hl per">o sol apareceu, meio envergonhado, pedindo desculpas pelo atraso</span>. E eu percebi que até um dia molhado cabe numa boa história.</p>
+  </div>
+  <div class="tog" id="tog2">
+    <button class="btn" style="--c:var(--pink)" data-k="per">🧸 Personificação</button>
+    <button class="btn" style="--c:var(--purple)" data-k="met">🎭 Metáfora</button>
+    <button class="btn" style="--c:var(--orange)" data-k="ali">🔁 Aliteração</button>
+    <button class="btn" style="--c:var(--green)" data-k="tro">😜 Trocadilho</button>
+  </div>
+  <div class="info" id="info2">Primeiro faça o jogo abaixo. Depois use os botões para conferir tudo colorido no texto.</div>
+  <div class="card blue"><h3>🎯 Qual figura é essa?</h3><div id="m4"></div></div>
+  <div class="navrow"><button class="btn ghost" data-prev>⬅ Voltar</button><button class="btn" style="--c:var(--pink)" data-next disabled>Próxima missão ➜</button></div>
+</section>
+
+<section class="screen" data-name="Missão 5: Crônica ou notícia?">
+  <span class="mbadge">Missão 5</span><h2>Crônica ou notícia? 🪤</h2>
+  <p class="lead">As duas podem falar do mesmo assunto e sair no mesmo jornal. O que muda é o jeito de escrever.</p>
+  <div class="card blue"><div id="m5"></div></div>
+  <div class="navrow"><button class="btn ghost" data-prev>⬅ Voltar</button><button class="btn" style="--c:var(--pink)" data-next disabled>Próxima missão ➜</button></div>
+</section>
+
+<section class="screen" data-name="Missão 6: Eu sou a cronista">
+  <span class="mbadge">Missão 6</span><h2>Eu sou a cronista ✍️</h2>
+  <p class="lead">Escreva uma crônica bem curtinha (3 a 5 frases) sobre algo que aconteceu no seu dia. Use pelo menos <b>2 figuras de linguagem</b>.</p>
+  <div class="card yellow"><h3>💡 Ideias</h3><p>O despertador de manhã · a fila da cantina · o trânsito até a escola · o cachorro da vizinha · a hora do recreio · a chuva</p></div>
+  <div class="card pink" id="w1">
+    <textarea aria-label="Sua crônica" placeholder="Hoje de manhã..."></textarea>
+    <div class="row" style="margin-top:12px"><button class="btn" style="--c:var(--purple)" data-said>🎤 Contei em voz alta</button><button class="btn" style="--c:var(--pink)" data-model disabled>👀 Ver exemplo</button></div>
+    <div class="model"><p><b>Exemplo:</b> Hoje de manhã, meu despertador gritou comigo às seis horas. Eu fingi que não ouvi, mas ele insistiu. Minha cama era uma nuvem quentinha, e sair dela foi uma aventura. No café, minha mãe disse que eu estava "atrasada de sono". Acho que o sono é o único atraso que ninguém consegue recuperar.</p>
+      <div class="checks"><p><b>Confira na sua crônica:</b></p>
+        <label><input type="checkbox"> Fala de algo do dia a dia 🕐</label>
+        <label><input type="checkbox"> Tem o meu jeito de ver, meu humor ou minha opinião 👀</label>
+        <label><input type="checkbox"> Usei uma figura de linguagem 🧸🎭🔁😜</label>
+        <label><input type="checkbox"> Usei outra figura de linguagem</label>
+        <label><input type="checkbox"> Termina com uma graça ou uma reflexão 💭</label></div></div>
+  </div>
+  <div class="card"><h3>🔍 E no exemplo?</h3><p class="lead">Depois de ver o exemplo: "o despertador gritou" é <b>personificação</b>, "minha cama era uma nuvem" é <b>metáfora</b>.</p></div>
+  <div class="navrow"><button class="btn ghost" data-prev>⬅ Voltar</button><button class="btn" style="--c:var(--pink)" data-next disabled>Desafio final ➜</button></div>
+</section>
+
+<section class="screen" data-name="Desafio final">
+  <span class="mbadge">🏆 Desafio final</span><h2>A prova da cronista</h2>
+  <p class="lead">10 perguntas sobre crônica e figuras de linguagem.</p>
+  <div class="card" id="final"></div>
+  <div class="navrow"><button class="btn ghost" data-prev>⬅ Voltar</button><button class="btn" style="--c:var(--pink)" data-next disabled>Ver o mapa mental ➜</button></div>
+</section>
+
+<section class="screen" data-name="Mapa mental">
+  <span class="mbadge">Mapa mental</span><div class="catbox" style="margin:8px 0"><svg viewBox="0 0 120 120" aria-hidden="true" class="cat catmini">
+<path d="M22 50 L20 14 L48 34 Z" fill="#FFB36B" stroke="#4B2E5C" stroke-width="4" stroke-linejoin="round"/>
+<path d="M98 50 L100 14 L72 34 Z" fill="#FFB36B" stroke="#4B2E5C" stroke-width="4" stroke-linejoin="round"/>
+<path d="M27 42 L27 24 L41 34 Z" fill="#FF9EC3"/><path d="M93 42 L93 24 L79 34 Z" fill="#FF9EC3"/>
+<ellipse cx="60" cy="70" rx="44" ry="40" fill="#FFB36B" stroke="#4B2E5C" stroke-width="4"/>
+<path d="M60 34 L60 46 M50 36 L52 46 M70 36 L68 46" stroke="#E08A3C" stroke-width="4" stroke-linecap="round"/>
+<ellipse cx="44" cy="66" rx="7" ry="9" fill="#4B2E5C"/><ellipse cx="76" cy="66" rx="7" ry="9" fill="#4B2E5C"/>
+<circle cx="46" cy="63" r="2.6" fill="#fff"/><circle cx="78" cy="63" r="2.6" fill="#fff"/>
+<path d="M56 78 L64 78 L60 83 Z" fill="#FF7BAC"/>
+<path d="M60 83 Q54 90 48 86 M60 83 Q66 90 72 86" stroke="#4B2E5C" stroke-width="3" fill="none" stroke-linecap="round"/>
+<circle cx="34" cy="82" r="6" fill="#FF7BAC" opacity=".5"/><circle cx="86" cy="82" r="6" fill="#FF7BAC" opacity=".5"/>
+<path d="M30 76 L8 72 M30 82 L8 86 M90 76 L112 72 M90 82 L112 86" stroke="#4B2E5C" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M40 30 L60 8 L80 30 Z" fill="#fff" stroke="#4B2E5C" stroke-width="3" stroke-linejoin="round"/>
+<path d="M48 23 L72 23 M52 17 L68 17" stroke="#A57BFF" stroke-width="2"/>
+</svg><div class="speech">A Mimi resumiu tudo para você! 🐾</div></div>
+  <div class="mind">
+    <div class="branch l"><div class="node" style="font-size:1.3rem">📰 CRÔNICA</div><div class="arrow">↓</div>
+      <div class="node">texto curto do dia a dia</div><div class="arrow">↓</div><div class="node">com o olhar do autor</div>
+      <div class="leaves"><span>😄 humor</span><span>💖 emoção</span><span>💭 reflexão</span><span>💬 conversa</span></div></div>
+    <div class="branch n"><div class="node" style="font-size:1.3rem">✨ FIGURAS DE LINGUAGEM</div><div class="arrow">↓</div>
+      <div class="node">truques do escritor</div><div class="arrow">↓</div>
+      <div class="leaves"><span>🧸 personificação: vira gente</span><span>🎭 metáfora: vira outra coisa</span><span>🔁 aliteração: repete o som</span><span>😜 trocadilho: faz piada</span></div></div>
+  </div>
+  <div class="rule">🗞️ A notícia conta <span>o que aconteceu</span>.<br>A crônica conta <span>o que o autor viu e sentiu</span> no que aconteceu.</div>
+  <div class="navrow"><button class="btn ghost" data-prev>⬅ Voltar</button><button class="btn" style="--c:var(--green)" id="restart">Jogar tudo de novo 🔁</button></div>
+</section>
+</main>
+<script>(function(){
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); const t = a[i]; a[i] = a[j]; a[j] = t; } return a; };
+const PRAISE = ['Miau-ravilhoso! 😻','Purr-feito! 🐾','Que gatinha esperta! 🐱','Miau! Acertou em cheio! 🎯','Arrasou, cronista felina! ✍️'];
+const pick = a => a[Math.floor(Math.random()*a.length)];
+let points = 0;
+const addPoint = () => { points++; $('#score').textContent = points; };
+function purr(){ $$('.cat').forEach(c=>{ c.classList.remove('purr'); void c.getBBox(); c.classList.add('purr'); }); }
+function confetti(){ purr(); if (reduce) return; const em=['🐾','🐱','😻','💖','⭐','🐟']; for(let i=0;i<40;i++){const d=document.createElement('div');d.className='paw';d.textContent=em[i%em.length];d.style.left=Math.random()*100+'vw';d.style.animationDuration=(2+Math.random()*2)+'s';d.style.animationDelay=(Math.random()*.5)+'s';document.body.appendChild(d);setTimeout(function(){d.remove();},4800);} }
+
+const screens = $$('.screen'); let cur = 0;
+$('#steps').innerHTML = screens.map(() => '<span></span>').join('');
+function go(i){
+  cur = i; screens.forEach((s,k) => s.classList.toggle('on', k === i));
+  $$('#steps span').forEach((s,k) => { s.className = k < i ? 'done' : k === i ? 'now' : ''; });
+  $('#steplabel').textContent = 'Etapa ' + (i+1) + ' de ' + screens.length + ' · ' + screens[i].dataset.name;
+  window.scrollTo(0,0);
+}
+const unlock = idx => { const b = screens[idx].querySelector('[data-next]'); if (b){ b.disabled = false; b.classList.add('shake'); } };
+$$('[data-next]').forEach(b => b.onclick = () => { if (!b.disabled) go(cur+1); });
+$$('[data-prev]').forEach(b => b.onclick = () => go(cur-1));
+$('#restart').onclick = () => location.reload();
+
+function ask(el, q, options, answer, whyRight, whyWrong, done, quad){
+  el.innerHTML = (q ? '<p style="font-weight:700">' + q + '</p>' : '') + '<div class="' + (quad ? 'quad' : 'choices') + '">' + options.map((o,k) => '<button class="btn ' + (quad ? '' : 'ghost ') + 'opt"' + (quad ? ' style="--c:' + ['var(--pink)','var(--purple)','var(--orange)','var(--green)','var(--blue)'][k % 5] + '"' : '') + '>' + o + '</button>').join('') + '</div><div class="fb" aria-live="polite"></div>';
+  const fb = el.querySelector('.fb'); let answered = false;
+  el.querySelectorAll('.opt').forEach(b => b.onclick = () => {
+    if (answered) return; answered = true;
+    const ok = b.textContent === answer;
+    el.querySelectorAll('.opt').forEach(o => { o.disabled = true; if (o.textContent === answer){ o.classList.remove('ghost'); o.classList.add('right'); } else if (o !== b) o.classList.add('dim'); });
+    if (ok){ addPoint(); purr(); fb.className = 'fb show good'; fb.innerHTML = '✅ ' + pick(PRAISE) + (whyRight ? '<br>' + whyRight : ''); }
+    else { b.classList.remove('ghost'); b.classList.add('wrong','shake'); fb.className = 'fb show bad'; fb.innerHTML = '🐾 Quase! A resposta é <b>' + answer + '</b>. ' + (whyWrong || whyRight || ''); }
+    if (done) done(ok);
+  });
+}
+
+/* sequência de perguntas */
+function run(box, items, opts){
+  let i = 0, score = 0;
+  function show(){
+    if (i >= items.length){ opts.end(box, score, items.length, () => { i = 0; score = 0; show(); }); return; }
+    const it = items[i];
+    box.innerHTML = '<div class="counter">' + (opts.label || 'Pergunta') + ' ' + (i+1) + ' de ' + items.length + '</div>' + (it.s ? '<div class="sentence">' + it.s + '</div>' : '') + '<div class="a1"></div><div class="sub" hidden></div>';
+    const a1 = box.querySelector('.a1'), sub = box.querySelector('.sub');
+    const next = () => { const n = document.createElement('div'); n.className = 'row center'; n.style.marginTop = '14px'; n.innerHTML = '<button class="btn" style="--c:var(--blue)">' + (i+1 < items.length ? 'Próxima ➜' : 'Terminar 🏁') + '</button>'; n.firstChild.onclick = () => { i++; show(); }; box.appendChild(n); };
+    ask(a1, it.q, it.keep ? it.o : shuffle(it.o), it.a, it.why, it.wrong, ok => {
+      if (ok) score++;
+      if (it.j){ sub.hidden = false; ask(sub, '🔎 ' + it.j.q, shuffle(it.j.o), it.j.a, it.j.why, null, next); }
+      else next();
+    }, opts.quad);
+  }
+  show();
+}
+const simpleEnd = (idx, msg) => (box, score, total, again) => {
+  box.innerHTML = '<div class="result"><div class="big">' + (score/total >= .7 ? '😻' : '🐾') + '</div><h3>' + score + ' de ' + total + ' de primeira!</h3><p>' + msg + '</p><button class="btn ghost">Jogar de novo 🐾</button></div>';
+  box.querySelector('.btn').onclick = again; if (score/total >= .7) confetti(); unlock(idx);
+};
+
+/* botões que acendem o texto */
+function toggles(paperSel, togSel, infoSel, info){
+  $$(togSel + ' .btn').forEach(b => b.onclick = () => {
+    const k = b.dataset.k, on = $(paperSel).classList.toggle('show-' + k);
+    b.classList.toggle('on', on); $(infoSel).innerHTML = info[k];
+  });
+}
+toggles('#cron1', '#tog1', '#info1', {
+  cot:'🕐 <b>Cotidiano:</b> um elevador, uma segunda-feira, a vizinha com sacolas de feira. Nada de dragões ou castelos: é o dia a dia!',
+  eu:'💬 <b>Narrador "eu":</b> quem conta participa da história e mostra o que pensa, como numa conversa com o leitor.',
+  hum:'😄 <b>Humor:</b> o elevador reclamando de dor nas costas, "não cabia, mas coube", o gato fazendo pergunta com o olhar. O autor faz a gente rir.',
+  ref:'💭 <b>Reflexão:</b> no final, o elevador vira um jeito de pensar sobre a vida na cidade. Muitas crônicas terminam assim!'
+});
+toggles('#cron2', '#tog2', '#info2', {
+  per:'🧸 <b>Personificação:</b> o céu acorda de mau humor e chora; o sol fica envergonhado e pede desculpas. Coisas agindo como gente!',
+  met:'🎭 <b>Metáfora:</b> o pátio VIROU um oceano; os guarda-chuvas ERAM barquinhos. Sem "como"!',
+  ali:'🔁 <b>Aliteração:</b> Pisem, Pulem, Passem, Pelo Pano: o som do P se repete.',
+  tro:'😜 <b>Trocadilho:</b> "chover canivete" quer dizer chover muito, mas a Bia entendeu canivete de verdade (para apontar lápis)!'
+});
+
+/* M1 */
+run($('#m1'), [
+  { q:'Qual frase explica melhor o que é uma crônica?', o:['Um texto curto sobre o dia a dia, com o olhar pessoal do autor','Um texto que só informa fatos com datas e números','Uma história de fadas com castelos e dragões'], a:'Um texto curto sobre o dia a dia, com o olhar pessoal do autor', why:'Crônica = <b>cotidiano</b> + <b>jeito pessoal</b> do autor.' },
+  { q:'Onde as crônicas costumam ser publicadas?', o:['Em jornais, revistas e na internet','Só em livros de receitas','Em manuais de instrução'], a:'Em jornais, revistas e na internet', why:'A crônica nasceu no jornal, ao lado das notícias!' }
+], { end: simpleEnd(1, 'Agora você já sabe reconhecer uma crônica!') });
+
+/* M2 */
+run($('#m2'), [
+  { q:'Qual é o assunto da crônica?', o:['Uma descida de elevador cheio numa manhã comum','Uma viagem para outro país','Como consertar um elevador quebrado'], a:'Uma descida de elevador cheio numa manhã comum', why:'Um fato <b>simples do cotidiano</b>, típico de crônica.' },
+  { q:'Quem conta a história?', o:['Um narrador que participa dela ("eu")','O elevador','A dona Cida'], a:'Um narrador que participa dela ("eu")', why:'Prova: "<b>eu</b> estava atrasada e apertei o botão".' },
+  { q:'"Não cabia. Mas coube." O que essa frase mostra?', o:['Humor: parecia impossível, mas todos se apertaram','Que o elevador quebrou','Que a narradora ficou do lado de fora'], a:'Humor: parecia impossível, mas todos se apertaram', why:'O jeito divertido de contar é o <b>olhar do autor</b>.' },
+  { q:'"O elevador é rabugento e tem opinião sobre tudo." Que figura de linguagem é essa?', o:['Personificação','Aliteração','Trocadilho'], a:'Personificação', why:'Elevador não tem opinião nem humor: ele ganhou <b>jeito de gente</b>.' },
+  { q:'Qual é a reflexão do final?', o:['A vida na cidade é apertada, mas sempre cabe mais um sorriso','Elevadores são perigosos','Cachorros não devem andar de elevador'], a:'A vida na cidade é apertada, mas sempre cabe mais um sorriso', why:'O cronista usa um fato pequeno para pensar em algo <b>maior</b>.' }
+], { end: simpleEnd(2, 'Você leu como uma cronista de verdade!') });
+
+/* M3 */
+const F4 = ['Personificação','Metáfora','Aliteração','Trocadilho'];
+run($('#m3'), [
+  { s:'"O despertador gritou comigo às seis horas."', q:'Qual figura?', o:F4, keep:true, a:'Personificação', why:'Despertador não grita com raiva: agiu como gente.' },
+  { s:'"Minha cama é uma nuvem."', q:'Qual figura?', o:F4, keep:true, a:'Metáfora', why:'A cama É uma nuvem, sem "como".' },
+  { s:'"O rato roeu a roupa do rei de Roma."', q:'Qual figura?', o:F4, keep:true, a:'Aliteração', why:'O som do R se repete.' },
+  { s:'"Por que o livro de matemática ficou triste? Porque tinha muitos problemas."', q:'Qual figura?', o:F4, keep:true, a:'Trocadilho', why:'"Problemas" de conta e "problemas" da vida!' },
+  { s:'"Ele corre como um foguete."', q:'É metáfora?', o:['Não, é comparação (tem "como")','Sim, é metáfora'], a:'Não, é comparação (tem "como")', why:'Com "como" é comparação. "Ele é um foguete" seria metáfora.' }
+], { quad:false, end: simpleEnd(3, 'Os 4 truques já estão no seu bolso!') });
+
+/* M4 */
+run($('#m4'), [
+  { s:'"O céu acordou de mau humor e resolveu chorar o dia inteiro."', q:'Qual figura de linguagem?', o:F4, keep:true, a:'Personificação', why:'O céu acorda, fica de mau humor e chora: coisas de gente!',
+    j:{ q:'Qual palavra prova?', o:['acordou de mau humor','dia inteiro','Na terça-feira'], a:'acordou de mau humor', why:'Céu não tem humor: só gente tem!' } },
+  { s:'"O pátio virou um oceano."', q:'Qual figura de linguagem?', o:F4, keep:true, a:'Metáfora', why:'O pátio não virou oceano de verdade: foi comparado, sem "como".',
+    j:{ q:'Por que NÃO é comparação?', o:['Porque não tem "como" nem "parece"','Porque fala de água','Porque é uma frase curta'], a:'Porque não tem "como" nem "parece"', why:'Metáfora = comparação escondida.' } },
+  { s:'"Os guarda-chuvas coloridos eram barquinhos."', q:'Qual figura de linguagem?', o:F4, keep:true, a:'Metáfora', why:'Os guarda-chuvas ERAM barquinhos: metáfora!' },
+  { s:'"Pisem, pulem, passem pelo pano!"', q:'Qual figura de linguagem?', o:F4, keep:true, a:'Aliteração', why:'O som do P se repete: Pisem, Pulem, Passem, Pelo, Pano.',
+    j:{ q:'Qual som se repete?', o:['P','S','M'], a:'P', why:'P, P, P, P, P!' } },
+  { s:'"— Está chovendo canivete! — Então me empresta um, que eu esqueci meu apontador."', q:'Qual figura de linguagem?', o:F4, keep:true, a:'Trocadilho', why:'A graça vem dos dois sentidos de "canivete".',
+    j:{ q:'Onde está a graça?', o:['"Chover canivete" é chover muito, mas a Bia pensou em canivete de verdade','Canivetes caem do céu quando chove','A Bia gosta de apontar lápis'], a:'"Chover canivete" é chover muito, mas a Bia pensou em canivete de verdade', why:'Uma expressão, dois sentidos: trocadilho!' } },
+  { s:'"O sol apareceu, meio envergonhado, pedindo desculpas pelo atraso."', q:'Qual figura de linguagem?', o:F4, keep:true, a:'Personificação', why:'O sol sente vergonha e pede desculpas, como gente.' }
+], { quad:false, end: simpleEnd(4, 'Todas as figuras encontradas! Agora use os botões coloridos para ver tudo no texto.') });
+
+/* M5 */
+const CN = ['📰 Crônica','📋 Notícia'];
+run($('#m5'), [
+  { s:'"Engarrafamento de 120 km é registrado na cidade nesta sexta-feira."', q:'Crônica ou notícia?', o:CN, keep:true, a:'📋 Notícia', why:'Só informa o fato, com número e dia.' },
+  { s:'"Fiquei tanto tempo parada no trânsito que meu carro quase criou raízes."', q:'Crônica ou notícia?', o:CN, keep:true, a:'📰 Crônica', why:'Mesmo assunto, mas com humor e o jeito da autora (e ainda tem um exagero divertido!).' },
+  { s:'"A escola municipal inaugurou uma nova biblioteca com 3 mil livros."', q:'Crônica ou notícia?', o:CN, keep:true, a:'📋 Notícia', why:'Informa o fato e os números.' },
+  { s:'"Na biblioteca nova, os livros me olhavam das prateleiras como quem diz: me leva pra casa!"', q:'Crônica ou notícia?', o:CN, keep:true, a:'📰 Crônica', why:'Olhar pessoal, imaginação e personificação: os livros "olham" e "falam".' },
+  { s:'"Toda manhã, a padaria da esquina tem a mesma fila. E todo dia eu descubro uma pessoa nova nela."', q:'Crônica ou notícia?', o:CN, keep:true, a:'📰 Crônica', why:'É do cotidiano e mostra o que a autora observa e pensa.' },
+  { s:'"O preço do pão francês subiu 8% no último mês, segundo pesquisa."', q:'Crônica ou notícia?', o:CN, keep:true, a:'📋 Notícia', why:'Dado, porcentagem e fonte: jeito de notícia.' }
+], { quad:true, end: simpleEnd(5, 'A notícia conta o que aconteceu. A crônica conta o que o autor viu e sentiu!') });
+
+/* M6 */
+(function(){
+  const c = $('#w1'), ta = c.querySelector('textarea'), said = c.querySelector('[data-said]'), mb = c.querySelector('[data-model]'), model = c.querySelector('.model');
+  let spoke = false; const check = () => { mb.disabled = !(spoke || ta.value.trim().length >= 40); };
+  ta.addEventListener('input', check);
+  said.onclick = () => { spoke = true; said.textContent = '✅ Contei!'; said.style.setProperty('--c','var(--green)'); check(); };
+  mb.onclick = () => { if (mb.disabled) return; model.classList.add('show'); if (!mb.dataset.used){ mb.dataset.used = '1'; addPoint(); confetti(); } unlock(6); };
+})();
+
+/* FINAL */
+run($('#final'), [
+  { q:'A crônica é um texto:', o:['Curto, sobre o dia a dia, com o olhar do autor','Longo, com muitos capítulos','Que só informa dados'], a:'Curto, sobre o dia a dia, com o olhar do autor' },
+  { q:'Qual é a diferença entre crônica e notícia?', o:['A notícia informa o fato; a crônica mostra o que o autor viu e sentiu','A notícia é sempre engraçada','A crônica nunca sai no jornal'], a:'A notícia informa o fato; a crônica mostra o que o autor viu e sentiu' },
+  { q:'Muitas crônicas terminam com:', o:['Uma reflexão ou uma graça','Uma lista de ingredientes','Uma tabela de números'], a:'Uma reflexão ou uma graça' },
+  { s:'"O vento cochichou segredos na janela."', q:'Qual figura?', o:F4, keep:true, a:'Personificação', why:'Vento não cochicha: agiu como gente.' },
+  { s:'"Meu quarto é um campo de batalha."', q:'Qual figura?', o:F4, keep:true, a:'Metáfora', why:'O quarto É um campo de batalha, sem "como".' },
+  { s:'"Bia bebeu bastante bala de banana."', q:'Qual figura?', o:F4, keep:true, a:'Aliteração', why:'O som do B se repete.' },
+  { s:'"O que o pato disse para a pata? Vem quá!"', q:'Qual figura?', o:F4, keep:true, a:'Trocadilho', why:'"Quá" do pato e "cá" de "vem cá".' },
+  { s:'"Minha irmã é rápida como um raio."', q:'Isso é:', o:['Comparação','Metáfora','Aliteração','Trocadilho'], keep:true, a:'Comparação', why:'Tem "como"! Sem ele ("Minha irmã é um raio") seria metáfora.' },
+  { s:'"A árvore velha abraçava o banco da praça."', q:'Qual figura?', o:F4, keep:true, a:'Personificação', why:'Árvore não abraça: jeito de gente.' },
+  { q:'Por que os cronistas usam figuras de linguagem?', o:['Para deixar o texto mais bonito, engraçado e marcante','Para deixar o texto mais difícil','Porque é obrigatório em todo texto'], a:'Para deixar o texto mais bonito, engraçado e marcante' }
+], { end: (box, score, total, again) => {
+  const r = score <= 4 ? ['🐣','Gatinha aprendiz','Você já começou! Revise o mapa mental com a Mimi e tente de novo.'] : score <= 8 ? ['🐱','Gata cronista','Você já reconhece crônicas e figuras. Falta só um bigodinho!'] : ['😻👑','Rainha dos gatos cronistas','Você dominou crônicas e figuras de linguagem!'];
+  box.innerHTML = '<div class="result"><div class="big">' + r[0] + '</div><h3>' + score + ' de ' + total + '</h3><div class="rank">' + r[1] + '</div><p>' + r[2] + '</p><button class="btn ghost">Tentar de novo 🔁</button></div>';
+  box.querySelector('.btn').onclick = again; if (score >= 5) confetti(); unlock(7);
+}});
+
+go(0);
+})();
+</script>
+</body>
+</html>
